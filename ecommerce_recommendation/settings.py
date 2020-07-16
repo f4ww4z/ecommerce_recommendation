@@ -128,6 +128,17 @@ REST_FRAMEWORK = {
     )
 }
 
-# Activate Django Heroku
-django_heroku.settings(locals(), test_runner=False)
-del DATABASES['default']['OPTIONS']['sslmode']
+if os.environ.get('GITHUB_WORKFLOW'):
+    # for GitHub CI workflow
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'github_actions',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
+else:
+    # Activate Django Heroku
+    django_heroku.settings(locals(), test_runner=False)
+    del DATABASES['default']['OPTIONS']['sslmode']

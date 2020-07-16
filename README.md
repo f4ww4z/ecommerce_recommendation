@@ -1,3 +1,5 @@
+![Django CI](https://github.com/f4ww4z/ecommerce_recommendation/workflows/Django%20CI/badge.svg)
+
 # Recommendation-based E-commerce web app
 
 ## Development Setup
