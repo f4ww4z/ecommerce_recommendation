@@ -28,7 +28,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(os.environ.get('DEBUG', False))
+DEBUG = os.environ.get('DEBUG') == 'True'
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'ecommerce-recommendation.herokuapp.com']
 
@@ -124,9 +124,27 @@ STATIC_URL = '/static/'
 # REST Framework
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
+
+# Cloud file storage
+USE_CLOUD_STORAGE = os.environ.get('USE_S3') == 'True'
+
+if USE_CLOUD_STORAGE:
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+    AWS_ACCESS_KEY_ID = os.environ.get('FELIX_AWS_ACCESS_KEY_ID')
+
+    AWS_SECRET_ACCESS_KEY = os.environ.get('FELIX_AWS_SECRET_ACCESS_KEY')
+
+    AWS_STORAGE_BUCKET_NAME = os.environ.get('FELIX_AWS_BUCKET_NAME')
+
+    AWS_DEFAULT_ACL = None
 
 if os.environ.get('GITHUB_WORKFLOW'):
     # for GitHub CI workflow

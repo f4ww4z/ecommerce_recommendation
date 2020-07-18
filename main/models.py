@@ -10,6 +10,7 @@ class Product(models.Model):
     name = models.CharField(max_length=200)
     seller = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    image = models.ImageField(null=True, blank=True)
 
 
 class Order(models.Model):

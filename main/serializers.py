@@ -11,12 +11,52 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    seller = serializers.ReadOnlyField(source='seller.username')
+
     class Meta:
         model = Product
         fields = '__all__'
 
 
-class UserSerializer(serializers.ModelSerializer):
+class ProductImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['image']
+
+    def save(self, **kwargs):
+        if self.instance.image:
+            self.instance.image.delete()
+        return super().save(**kwargs)
+
+
+class UserViewSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'first_name', 'last_name']
+        fields = ['id', 'username', 'email']
+
+
+class UserCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'password', 'first_name', 'last_name']
+
+
+class UserSerializer(serializers.ModelSerializer):
+    password = serializers.ReadOnlyField()
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'password', 'first_name', 'last_name']
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    def update(self, instance, validated_data):
+        pass
+
+    def create(self, validated_data):
+        pass
+
+    model = User
+
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
