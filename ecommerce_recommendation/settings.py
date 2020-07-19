@@ -30,7 +30,12 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG') == 'True'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'ecommerce-recommendation.herokuapp.com']
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'ecommerce-recommendation.herokuapp.com',
+    'ecommerce-recommend.herokuapp.com',
+]
 
 # Application definition
 
@@ -44,10 +49,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'drf_yasg',
+    'corsheaders',
     'main.apps.MainConfig',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -129,6 +136,15 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+# CORS
+CROSS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+    'http://localhost:5000',
+    'https://ecommerce-recommend.herokuapp.com',
+]
 
 # Cloud file storage
 USE_CLOUD_STORAGE = os.environ.get('USE_S3') == 'True'
