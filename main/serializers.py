@@ -16,7 +16,15 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
-        depth = 1
+
+
+class ProductViewSerializer(serializers.ModelSerializer):
+    seller = serializers.ReadOnlyField(source='seller.username')
+    category = serializers.ReadOnlyField(source='category.name')
+
+    class Meta:
+        model = Product
+        fields = '__all__'
 
 
 class ProductImageSerializer(serializers.ModelSerializer):

@@ -3,10 +3,18 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 from main.models import Product
-from main.serializers import ProductSerializer
+from main.serializers import ProductViewSerializer, ProductSerializer
 
 
-class ProductList(generics.ListCreateAPIView):
+class ProductList(generics.ListAPIView):
+    serializer_class = ProductViewSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        return Product.objects.exclude(seller_id=self.request.user.id)
+
+
+class ProductCreate(generics.CreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -17,7 +25,7 @@ class ProductList(generics.ListCreateAPIView):
 
 class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
-    serializer_class = ProductSerializer
+    serializer_class = ProductViewSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
 
