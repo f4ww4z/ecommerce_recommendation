@@ -3,6 +3,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 from main.models import Product
+from main.permissions import IsSeller
 from main.serializers import ProductViewSerializer, ProductSerializer
 
 
@@ -17,7 +18,7 @@ class ProductList(generics.ListAPIView):
 class ProductCreate(generics.CreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(seller=self.request.user)
@@ -26,10 +27,10 @@ class ProductCreate(generics.CreateAPIView):
 class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductViewSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsSeller]
 
 
 # TODO: upload product image
 class ProductImageUpload(views.APIView):
     parser_classes = [MultiPartParser, FormParser]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsSeller]
