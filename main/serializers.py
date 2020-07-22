@@ -1,7 +1,25 @@
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.state import User
 
 from main.models import Category, Product
+
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def update(self, instance, validated_data):
+        pass
+
+    def create(self, validated_data):
+        pass
+
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        # Add custom username claim
+        token['username'] = user.username
+
+        return token
 
 
 class CategorySerializer(serializers.ModelSerializer):

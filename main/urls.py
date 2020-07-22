@@ -5,6 +5,7 @@ from rest_framework import permissions
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from .api import api_product, api_user, api_category
+from .api.api_token import MyTokenObtainPairView, MyTokenRefreshView
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -23,8 +24,8 @@ urlpatterns = [
          name='schema-json'),
     path('docs', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-    path('token', TokenObtainPairView.as_view(), name='token-obtain-pair'),
-    path('token/refresh', TokenRefreshView.as_view(), name='token-refresh'),
+    path('token', MyTokenObtainPairView.as_view(), name='token-obtain-pair'),
+    path('token/refresh', MyTokenRefreshView.as_view(), name='token-refresh'),
     path('users', api_user.UserList.as_view(), name='users-list'),
     path('users/new', api_user.UserCreateView.as_view(), name='user-create'),
     path('users/<int:pk>', api_user.UserDetail.as_view(), name='user-detail'),
