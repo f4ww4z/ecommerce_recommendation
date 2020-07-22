@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.state import User
 
-from main.models import Category, Product
+from main.models import Category, Product, ShoppingCart
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -54,6 +54,22 @@ class ProductImageSerializer(serializers.ModelSerializer):
         if self.instance.image:
             self.instance.image.delete()
         return super().save(**kwargs)
+
+
+# class ShoppingCartViewSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = ShoppingCart
+#         fields = ['id', 'quantity', 'product']
+#         depth = 1
+
+
+class ShoppingCartSerializer(serializers.ModelSerializer):
+    buyer = serializers.ReadOnlyField(source='buyer.username')
+
+    class Meta:
+        model = ShoppingCart
+        fields = '__all__'
+        depth = 1
 
 
 class UserViewSerializer(serializers.ModelSerializer):

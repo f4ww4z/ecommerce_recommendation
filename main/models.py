@@ -14,9 +14,9 @@ class Product(models.Model):
 
 
 class Order(models.Model):
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
     # status can be either 'Delivering', 'Completed' or 'Canceled'
     STATUSES = [
         (0, 'Delivering'),
@@ -24,3 +24,9 @@ class Order(models.Model):
         (2, 'Cancelled')
     ]
     status = models.CharField(max_length=1, choices=STATUSES)
+
+
+class ShoppingCart(models.Model):
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.IntegerField()

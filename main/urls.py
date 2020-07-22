@@ -4,7 +4,7 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from .api import api_product, api_user, api_category
+from .api import api_product, api_user, api_category, api_cart
 from .api.api_token import MyTokenObtainPairView, MyTokenRefreshView
 
 schema_view = get_schema_view(
@@ -34,4 +34,6 @@ urlpatterns = [
     path('products/<int:pk>', api_product.ProductDetail.as_view(), name='product-detail'),
     path('categories', api_category.CategoryList.as_view(), name='all-categories-list'),
     path('categories/<int:pk>', api_category.CategoryDetail.as_view(), name='category-detail'),
+    path('cart', api_cart.RetrieveOrAddToShoppingCart.as_view(), name='shopping-cart'),
+    path('cart/<int:product_id>', api_cart.retrieve_modify_shopping_cart, name='modify-cart'),
 ]
