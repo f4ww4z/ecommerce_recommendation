@@ -2,10 +2,10 @@ from django.urls import path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
-from rest_framework_simplejwt.views import TokenRefreshView
+from rest_framework_simplejwt.views import TokenRefreshSlidingView
 
 from .api import api_product, api_user, api_category, api_cart, api_order
-from .api.api_token import MyTokenObtainPairView
+from .api.api_token import MyTokenObtainSlidingView
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -24,8 +24,8 @@ urlpatterns = [
          name='schema-json'),
     path('docs', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-    path('token', MyTokenObtainPairView.as_view(), name='token-obtain-pair'),
-    path('token/refresh', TokenRefreshView.as_view(), name='token-refresh'),
+    path('token', MyTokenObtainSlidingView.as_view(), name='token-obtain-pair'),
+    path('token/refresh', TokenRefreshSlidingView.as_view(), name='token-refresh'),
     path('users', api_user.UserList.as_view(), name='users-list'),
     path('users/new', api_user.UserCreateView.as_view(), name='user-create'),
     path('users/<int:pk>', api_user.UserDetail.as_view(), name='user-detail'),

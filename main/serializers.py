@@ -1,11 +1,11 @@
 from rest_framework import serializers
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.serializers import TokenObtainSlidingSerializer
 from rest_framework_simplejwt.state import User
 
 from main.models import Category, Product, ShoppingCart, Order
 
 
-class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+class MyTokenObtainPairSerializer(TokenObtainSlidingSerializer):
     def update(self, instance, validated_data):
         pass
 
