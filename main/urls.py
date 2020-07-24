@@ -36,6 +36,7 @@ urlpatterns = [
     path('categories/<int:pk>', api_category.CategoryDetail.as_view(), name='category-detail'),
     path('cart', api_cart.RetrieveOrAddToShoppingCart.as_view(), name='shopping-cart'),
     path('cart/<int:product_id>', api_cart.retrieve_modify_shopping_cart, name='modify-cart'),
-    path('orders', api_order.OrderListCreate.as_view(), name='my-orders'),
+    path('cart/buy', api_order.buy_items_in_shopping_cart, name='buy-items-in-shopping-cart'),
+    path('orders', api_order.order_group_list, name='my-orders'),
     path('orders/<int:pk>', api_order.OrderUpdate.as_view(), name='update-order-status'),
 ]

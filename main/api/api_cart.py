@@ -49,6 +49,7 @@ def retrieve_modify_shopping_cart(request, product_id: int):
         serializer = ShoppingCartSerializer(cart)
         return Response(serializer.data)
 
+    # to remove product from shopping cart
     elif request.method == 'DELETE':
         cart = ShoppingCart.objects.get(buyer_id=user.id, product_id=product_id)
         cart.delete()
