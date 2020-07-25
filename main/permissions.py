@@ -13,12 +13,15 @@ class IsUserOrReadOnly(permissions.BasePermission):
         return obj == request.user
 
 
-class IsSeller(permissions.BasePermission):
+class IsSellerOrReadOnly(permissions.BasePermission):
     """
     Custom permission to only allow the current seller to modify their products
     """
 
     def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
         return obj.seller == request.user
 
 
